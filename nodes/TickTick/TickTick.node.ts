@@ -64,6 +64,7 @@ export class TickTick implements INodeType {
 				type: "options",
 				noDataExpression: true,
 				options: [
+					{ name: "Comment", value: "comment" },
 					{ name: "Focus", value: "focus" },
 					{ name: "Habit", value: "habit" },
 					{ name: "Project", value: "project" },

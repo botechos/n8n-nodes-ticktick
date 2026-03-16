@@ -20,3 +20,7 @@ export function generateTaskId(): string {
 export function generateProjectId(): string {
 	return generateId(24);
 }
+
+export function generateCommentId(): string {
+	return generateId(24);
+}

@@ -71,6 +71,11 @@ export const ENDPOINTS = {
 	TASK_ASSIGN: "/task/assign",
 	TASK_PROJECT: "/batch/taskProject",
 	TASK_PARENT: "/batch/taskParent",
+
+	TASK_COMMENTS: (projectId: string, taskId: string) =>
+		`/project/${validatePathParam(projectId, "projectId")}/task/${validatePathParam(taskId, "taskId")}/comments`,
+	TASK_COMMENT: (projectId: string, taskId: string) =>
+		`/project/${validatePathParam(projectId, "projectId")}/task/${validatePathParam(taskId, "taskId")}/comment`,
 } as const;
 
 export const DEFAULT_HABIT_COLOR = "#97E38B";
