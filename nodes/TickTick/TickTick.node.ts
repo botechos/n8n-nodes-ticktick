@@ -67,6 +67,7 @@ export class TickTick implements INodeType {
 					{ name: "Comment", value: "comment" },
 					{ name: "Focus", value: "focus" },
 					{ name: "Habit", value: "habit" },
+					{ name: "Notification", value: "notification" },
 					{ name: "Project", value: "project" },
 					{ name: "Project Group", value: "projectGroup" },
 					{ name: "Sync", value: "sync" },

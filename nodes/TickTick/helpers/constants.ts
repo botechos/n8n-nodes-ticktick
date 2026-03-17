@@ -76,6 +76,9 @@ export const ENDPOINTS = {
 		`/project/${validatePathParam(projectId, "projectId")}/task/${validatePathParam(taskId, "taskId")}/comments`,
 	TASK_COMMENT: (projectId: string, taskId: string) =>
 		`/project/${validatePathParam(projectId, "projectId")}/task/${validatePathParam(taskId, "taskId")}/comment`,
+
+	NOTIFICATIONS: "/notification",
+	NOTIFICATIONS_MARK_READ: "/notification/markRead",
 } as const;
 
 export const DEFAULT_HABIT_COLOR = "#97E38B";
