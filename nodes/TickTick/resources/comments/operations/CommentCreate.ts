@@ -1,4 +1,5 @@
 import type {
+	IDataObject,
 	IExecuteFunctions,
 	INodeExecutionData,
 	INodeProperties,
@@ -169,7 +170,7 @@ export async function commentCreateExecute(
 				}))
 			: undefined;
 
-	const body: Record<string, unknown> = {
+	const body: IDataObject = {
 		id: commentId,
 		projectId,
 		taskId,
