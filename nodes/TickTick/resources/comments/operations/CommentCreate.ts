@@ -82,6 +82,43 @@ export const commentCreateFields: INodeProperties[] = [
 			show: { resource: ["comment"], operation: ["create"] },
 		},
 	},
+	{
+		displayName: "Mentions",
+		name: "mentions",
+		type: "fixedCollection",
+		default: {},
+		placeholder: "Add Mention",
+		typeOptions: { multipleValues: true },
+		description: "Users to mention in the comment",
+		displayOptions: {
+			show: { resource: ["comment"], operation: ["create"] },
+		},
+		options: [
+			{
+				name: "mentionValues",
+				displayName: "Mention",
+				values: [
+					{
+						displayName: "User ID",
+						name: "userId",
+						type: "number",
+						default: 0,
+						required: true,
+						description: "The numeric ID of the user to mention",
+					},
+					{
+						displayName: "Label",
+						name: "atLabel",
+						type: "string",
+						default: "",
+						required: true,
+						placeholder: "e.g. @Koba",
+						description: 'The display label for the mention (e.g. "@Username")',
+					},
+				],
+			},
+		],
+	},
 ];
 
 export async function commentCreateExecute(
@@ -115,10 +152,24 @@ export async function commentCreateExecute(
 		throw new Error("Comment text is required");
 	}
 
+	const mentionsRaw = this.getNodeParameter("mentions", index, {}) as {
+		mentionValues?: Array<{ userId: number; atLabel: string }>;
+	};
+
 	const commentId = generateCommentId();
 	const createdTime = formatISO8601WithMillis(new Date());
 
-	const body = {
+	const mentions =
+		mentionsRaw.mentionValues &&
+		Array.isArray(mentionsRaw.mentionValues) &&
+		mentionsRaw.mentionValues.length > 0
+			? mentionsRaw.mentionValues.map((m) => ({
+					userId: m.userId,
+					atLabel: m.atLabel,
+				}))
+			: undefined;
+
+	const body: Record<string, unknown> = {
 		id: commentId,
 		projectId,
 		taskId,
@@ -127,6 +178,10 @@ export async function commentCreateExecute(
 		isNew: true,
 		userProfile: { isMyself: true },
 	};
+
+	if (mentions) {
+		body.mentions = mentions;
+	}
 
 	await tickTickApiRequestV2.call(
 		this,

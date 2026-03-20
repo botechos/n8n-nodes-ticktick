@@ -18,6 +18,16 @@ export const notificationGetAllFields: INodeProperties[] = [
 			show: { resource: ["notification"], operation: ["getAll"] },
 		},
 	},
+	{
+		displayName: "Auto Mark Read",
+		name: "autoMarkRead",
+		type: "boolean",
+		default: false,
+		description: "Whether to automatically mark notifications as read when fetching them",
+		displayOptions: {
+			show: { resource: ["notification"], operation: ["getAll"] },
+		},
+	},
 ];
 
 export async function notificationGetAllExecute(
@@ -25,13 +35,14 @@ export async function notificationGetAllExecute(
 	index: number,
 ): Promise<INodeExecutionData[]> {
 	const unreadOnly = this.getNodeParameter("unreadOnly", index) as boolean;
+	const autoMarkRead = this.getNodeParameter("autoMarkRead", index) as boolean;
 
 	const response = await tickTickApiRequestV2.call(
 		this,
 		"GET",
 		ENDPOINTS.NOTIFICATIONS,
 		{},
-		{ autoMarkRead: "false" },
+		{ autoMarkRead: String(autoMarkRead) },
 	);
 
 	let notifications = Array.isArray(response) ? response : [];
